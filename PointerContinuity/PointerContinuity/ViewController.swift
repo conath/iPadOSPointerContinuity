@@ -60,17 +60,17 @@ class ViewController: UIViewController {
         guard let scene = view.window!.windowScene else { return }
         switchStateLocked.setOn(scene.pointerLockState?.isLocked ?? false, animated: false)
         if let mouseInput = GCMouse.current?.mouseInput {
-            mouseInput.mouseMovedHandler = { [weak self] (mouse: GCMouseInput, deltaX: Float, deltaY: Float) in
-                guard let self = self else { return }
-                /// let's hope we're on the main thread
-                if self.pointerLocked {
-                    self.handleLockedPointerMoved(CGFloat(deltaX), CGFloat(deltaY))
-                }
-            }
+            mouseInput.mouseMovedHandler = gcMouseMoved
             mouseWarningLabel.isHidden = true
         }
         /// workaround for iOS behavior where the external display will not use the system appearance by default
         (UIApplication.shared.delegate as! AppDelegate).externalVC?.overrideUserInterfaceStyle = traitCollection.userInterfaceStyle
+    }
+
+    private func gcMouseMoved(mouse: GCMouseInput, deltaX: Float, deltaY: Float) {
+        if self.pointerLocked && (deltaX + deltaY) != 0.0 {
+            self.handleLockedPointerMoved(CGFloat(deltaX), CGFloat(deltaY))
+        }
     }
     
     private func handleLockedPointerMoved(_ deltaX: CGFloat, _ deltaY: CGFloat) {
