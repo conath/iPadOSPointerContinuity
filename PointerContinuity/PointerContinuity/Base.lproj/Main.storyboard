@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18092"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PointerContinuity" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PointerContinuty" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOy-L5-Yw3" userLabel="TitleLabel">
+                                <rect key="frame" x="20" y="0.0" width="984" height="37"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oBJ-9d-j9l" userLabel="CursorState StackView">
+                                <rect key="frame" x="20" y="53" width="984" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Capture cursor (click or esc to release)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yt8-zc-d24">
+                                        <rect key="frame" x="0.0" y="0.0" width="927" height="31"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vgh-Io-ZtG">
+                                        <rect key="frame" x="935" y="0.0" width="51" height="31"/>
+                                        <accessibility key="accessibilityConfiguration" label="Capture cursor (press esc to release)"/>
+                                        <connections>
+                                            <action selector="valueChangedWithTheSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="yTo-cD-ykg"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lDM-JY-7gI" userLabel="LockMode StackView">
+                                <rect key="frame" x="20" y="92" width="984" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State of UICursorLockMode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PC2-Eg-5zb">
+                                        <rect key="frame" x="0.0" y="0.0" width="927" height="31"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x1L-cO-rW8">
+                                        <rect key="frame" x="935" y="0.0" width="51" height="31"/>
+                                        <accessibility key="accessibilityConfiguration" label="Capture cursor (press esc to release)"/>
+                                    </switch>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1MF-ds-g1Q" userLabel="AttributionLabel">
+                                <rect key="frame" x="20" y="732" width="984" height="36"/>
+                                <string key="text">Made by Christoph Parstorfer using the iOS 14 GameController &amp; Pointer API – Twitter @_conath
+GitHub https://github.com/conath/iPadOSPointerContinuity</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To experience this Demo, connect a pointing device to this iPad and click on the toggle above." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5f-5H-vLw" userLabel="MouseWarningLabel">
+                                <rect key="frame" x="20" y="175" width="984" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="u3R-ck-We3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="a5f-5H-vLw" firstAttribute="top" secondItem="lDM-JY-7gI" secondAttribute="bottom" constant="52" id="1nE-XZ-mCf"/>
+                            <constraint firstItem="lDM-JY-7gI" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4Nz-hb-fRu"/>
+                            <constraint firstItem="oBJ-9d-j9l" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Aft-J8-wgN"/>
+                            <constraint firstItem="uOy-L5-Yw3" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="E9s-ar-Oxx"/>
+                            <constraint firstItem="oBJ-9d-j9l" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="LC3-nd-hTO"/>
+                            <constraint firstItem="a5f-5H-vLw" firstAttribute="leading" secondItem="u3R-ck-We3" secondAttribute="leading" constant="20" id="QxU-iL-em2"/>
+                            <constraint firstItem="1MF-ds-g1Q" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="SVa-T1-Inh"/>
+                            <constraint firstItem="1MF-ds-g1Q" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="Vvz-pN-WMg"/>
+                            <constraint firstItem="uOy-L5-Yw3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="a1u-ey-b0P"/>
+                            <constraint firstItem="1MF-ds-g1Q" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ezr-Fr-D1d"/>
+                            <constraint firstItem="uOy-L5-Yw3" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="mgr-uc-uuN"/>
+                            <constraint firstItem="u3R-ck-We3" firstAttribute="trailing" secondItem="a5f-5H-vLw" secondAttribute="trailing" constant="20" id="ntV-42-QH1"/>
+                            <constraint firstItem="oBJ-9d-j9l" firstAttribute="top" secondItem="uOy-L5-Yw3" secondAttribute="bottom" constant="16" id="p5c-rs-Z7A"/>
+                            <constraint firstItem="lDM-JY-7gI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="pIY-bK-evf"/>
+                            <constraint firstItem="1MF-ds-g1Q" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PC2-Eg-5zb" secondAttribute="bottom" constant="8" id="tDP-zA-Vc2"/>
+                            <constraint firstItem="lDM-JY-7gI" firstAttribute="top" secondItem="oBJ-9d-j9l" secondAttribute="bottom" constant="8" id="w6f-Sv-bIb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mouseWarningLabel" destination="a5f-5H-vLw" id="E8p-JL-q6w"/>
+                        <outlet property="switchPrefersLocked" destination="Vgh-Io-ZtG" id="kRh-qo-tE9"/>
+                        <outlet property="switchStateLocked" destination="x1L-cO-rW8" id="Avp-9g-gZ1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-78.260869565217391" y="78.348214285714278"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
