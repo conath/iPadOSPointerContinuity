@@ -11,6 +11,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
     //@Published var isExternalScreenConnected = false
     
+    var viewController: ViewController!
     private var externalWindow: UIWindow?
     var externalVC: UIViewController? /// only stored to work around external display not following system appearance
     var externalDisplayArrangement: ExternalDisplayArrangement?
@@ -38,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
         let externalVC = UIViewController()
         self.externalVC = externalVC
         let pointerView = PointerView()
+        viewController.createUnlockButton(for: pointerView)
         externalPointerView = pointerView
         pointerView.setupCursorWithImage(UIImage(named: "defaultCursor")!)
         externalVC.view.addSubview(pointerView)

@@ -18,14 +18,15 @@ class PointerView: UIView {
     }
     /// Offset to subtract from the `pointerPosition`
     public var positionOffset: CGPoint = CGPoint.zero
-    /// Offset the image from the pointer location so the pointer doesn't visually disappear at screen edges
-    private let imageOffset = CGPoint(x: -2, y: -2)
     
     public func setupCursorWithImage(_ image: UIImage) {
         setupImageView(image: image)
     }
     
     // MARK: - Implementation
+    /// Offset the image from the pointer location so the pointer doesn't visually disappear at screen edges
+    private let imageOffset = CGPoint(x: -2, y: -2)
+    
     private var imageView: UIImageView!
     
     override func didMoveToSuperview() {

@@ -10,9 +10,11 @@ import GameController
 
 class ViewController: UIViewController {
     
+    @IBOutlet private weak var mouseWarningLabel: UILabel!
     @IBOutlet private weak var switchPrefersLocked: UISwitch!
     @IBOutlet private weak var switchStateLocked: UISwitch!
-    @IBOutlet private weak var mouseWarningLabel: UILabel!
+    @IBOutlet private weak var buttonUnlockCursor: UIButton!
+    private weak var externalButtonUnlockCursor: UIButton?
     private weak var pointerView: PointerView!
     
     private var pointerLocked = false
@@ -20,10 +22,14 @@ class ViewController: UIViewController {
 
     override var prefersPointerLocked: Bool { pointerLocked }
     
-    private func setPointerLocked(value: Bool) {
+    private func setPointerLocked(_ value: Bool) {
         pointerLocked = value
+        switchPrefersLocked.isEnabled = !value
+        buttonUnlockCursor.isEnabled = value
+        self.externalButtonUnlockCursor?.isEnabled = value
         if !value {
             pointerView.pointerPosition = nil
+            (UIApplication.shared.delegate as! AppDelegate).externalPointerView?.pointerPosition = nil
         }
         setNeedsUpdateOfPrefersPointerLocked()
         let isOnScreen = view.window != nil
@@ -38,11 +44,32 @@ class ViewController: UIViewController {
         }
     }
     
+    private func setUnlockAlpha(_ alpha: CGFloat, withDuration dur: TimeInterval = 0.2) {
+        UIView.animate(withDuration: dur) {
+            self.buttonUnlockCursor.alpha = alpha
+            self.externalButtonUnlockCursor?.alpha = alpha
+        }
+    }
+    
     @IBAction func valueChanged(theSwitch: UISwitch) {
-        setPointerLocked(value: theSwitch.isOn)
+        setPointerLocked(theSwitch.isOn)
+    }
+    
+    @IBAction func unlockCursorDown() {
+        setUnlockAlpha(0.2)
+    }
+    
+    @IBAction func unlockCursorUpOutside() {
+        setUnlockAlpha(1)
+    }
+    
+    @IBAction func unlockCursorUpInside() {
+        setUnlockAlpha(1)
+        setPointerLocked(false)
     }
     
     override func viewDidLoad() {
+        (UIApplication.shared.delegate as! AppDelegate).viewController = self
         addKeyCommand(UIKeyCommand(action: #selector(onEsc), input: UIKeyCommand.inputEscape))
         let pointerView = PointerView()
         pointerView.setupCursorWithImage(UIImage(named: "defaultCursor")!)
@@ -55,12 +82,13 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        switchPrefersLocked.setOn(prefersPointerLocked, animated: false)
+        setPointerLocked(false)
         /// set up mouse events
         guard let scene = view.window!.windowScene else { return }
         switchStateLocked.setOn(scene.pointerLockState?.isLocked ?? false, animated: false)
         if let mouseInput = GCMouse.current?.mouseInput {
             mouseInput.mouseMovedHandler = gcMouseMoved
+            mouseInput.leftButton.pressedChangedHandler = gcMousePressed
             mouseWarningLabel.isHidden = true
         }
         /// workaround for iOS behavior where the external display will not use the system appearance by default
@@ -70,6 +98,49 @@ class ViewController: UIViewController {
     private func gcMouseMoved(mouse: GCMouseInput, deltaX: Float, deltaY: Float) {
         if self.pointerLocked && (deltaX + deltaY) != 0.0 {
             self.handleLockedPointerMoved(CGFloat(deltaX), CGFloat(deltaY))
+        }
+    }
+    
+    private var lastClickedControl: UIControl? = nil
+    
+    /// basically re-implements UIControl touchDown, touchUpInside and touchUpOutside behavior
+    private func gcMousePressed(input: GCControllerButtonInput, value: Float, isPressed: Bool) {
+        func handleClickedView(_ hitView: UIView) {
+            /// click down
+            if isPressed, let control = hitView as? UIControl {
+                lastClickedControl = control
+                control.sendActions(for: .touchDown)
+            } else if let lastClickedControl = lastClickedControl {
+                /// click up
+                if hitView == lastClickedControl {
+                    lastClickedControl.sendActions(for: .touchUpInside)
+                } else {
+                    lastClickedControl.sendActions(for: .touchUpOutside)
+                }
+                self.lastClickedControl = nil
+            }
+        }
+        
+        if pointerLocked {
+            /// determine if there is a UIControl at the clicked position on this view
+            if let hitView = view.hitTest(lastKnownPointerPosition, with: nil) {
+                handleClickedView(hitView)
+            } else if !view.bounds.contains(lastKnownPointerPosition),
+                      /// cursor is on external screen!
+                      let extView = (UIApplication.shared.delegate as! AppDelegate).externalPointerView {
+                let extPosition = lastKnownPointerPosition - extView.positionOffset
+                /// hitTest does not work on external display :-(
+                /*
+                if let hitView = extView.hitTest(extPosition, with: nil) {
+                    handleClickedView(hitView)
+                }
+                */
+                /// since hitTest doesn't work, we need to check if the external unlock button's frame matches
+                if let button = externalButtonUnlockCursor,
+                   button.frame.contains(extPosition) {
+                    handleClickedView(button)
+                }
+            }
         }
     }
     
@@ -127,14 +198,44 @@ class ViewController: UIViewController {
     }
     
     @objc private func onEsc() {
-        setPointerLocked(value: false)
+        setPointerLocked(false)
     }
     
 }
 
 extension ViewController: UIPointerInteractionDelegate {
     func pointerInteraction(_ interaction: UIPointerInteraction, regionFor request: UIPointerRegionRequest, defaultRegion: UIPointerRegion) -> UIPointerRegion? {
-        lastKnownPointerPosition = request.location
+        if !pointerLocked {
+            lastKnownPointerPosition = request.location
+        }
         return nil
+    }
+}
+
+extension ViewController {
+    public func createUnlockButton(for pointerView: PointerView) {
+        let button = UIButton(primaryAction: UIAction.init(title: "Unlock cursor", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: .mixed, handler: { action in
+            print("Hello from the other side")
+        }))
+        button.setTitle("Unlock cursor", for: .normal)
+        button.titleLabel!.font = UIFont.preferredFont(forTextStyle: .headline)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        pointerView.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: pointerView.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: pointerView.centerYAnchor)
+        ])
+        button.addTarget(self, action: #selector(unlockCursorDown), for: .touchDown)
+        button.addTarget(self, action: #selector(unlockCursorUpOutside), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(unlockCursorUpInside), for: .touchUpInside)
+        button.isEnabled = pointerLocked
+        button.backgroundColor = .systemBackground
+        externalButtonUnlockCursor = button
+    }
+}
+
+extension CGPoint {
+    static func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
     }
 }

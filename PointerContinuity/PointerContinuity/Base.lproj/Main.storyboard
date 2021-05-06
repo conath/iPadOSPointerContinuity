@@ -2,8 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18092"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,37 +23,59 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oBJ-9d-j9l" userLabel="CursorState StackView">
-                                <rect key="frame" x="20" y="53" width="984" height="31"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To experience this Demo, connect a pointing device to this iPad and click on the toggle below." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5f-5H-vLw" userLabel="MouseWarningLabel">
+                                <rect key="frame" x="20" y="45" width="984" height="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="K3x-tG-boA" userLabel="Top Views">
+                                <rect key="frame" x="20" y="70" width="984" height="107"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Capture cursor (click or esc to release)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yt8-zc-d24">
-                                        <rect key="frame" x="0.0" y="0.0" width="927" height="31"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vgh-Io-ZtG">
-                                        <rect key="frame" x="935" y="0.0" width="51" height="31"/>
-                                        <accessibility key="accessibilityConfiguration" label="Capture cursor (press esc to release)"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oBJ-9d-j9l" userLabel="CursorState StackView">
+                                        <rect key="frame" x="0.0" y="0.0" width="984" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Capture cursor (use button below or esc to release)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yt8-zc-d24">
+                                                <rect key="frame" x="0.0" y="0.0" width="927" height="31"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vgh-Io-ZtG">
+                                                <rect key="frame" x="935" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" label="Capture cursor (press esc to release)"/>
+                                                <connections>
+                                                    <action selector="valueChangedWithTheSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="yTo-cD-ykg"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lDM-JY-7gI" userLabel="LockMode StackView">
+                                        <rect key="frame" x="0.0" y="39" width="984" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State of UICursorLockMode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PC2-Eg-5zb">
+                                                <rect key="frame" x="0.0" y="0.0" width="927" height="31"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x1L-cO-rW8">
+                                                <rect key="frame" x="935" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" label="Capture cursor (press esc to release)"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e2Q-AX-XfG">
+                                        <rect key="frame" x="0.0" y="78" width="984" height="29"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                        <state key="normal" title="Unlock cursor"/>
                                         <connections>
-                                            <action selector="valueChangedWithTheSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="yTo-cD-ykg"/>
+                                            <action selector="unlockCursorDown" destination="BYZ-38-t0r" eventType="touchDown" id="ZDx-uO-dyj"/>
+                                            <action selector="unlockCursorUpInside" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xw2-sc-vto"/>
+                                            <action selector="unlockCursorUpOutside" destination="BYZ-38-t0r" eventType="touchUpOutside" id="tA0-Kt-l6O"/>
                                         </connections>
-                                    </switch>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lDM-JY-7gI" userLabel="LockMode StackView">
-                                <rect key="frame" x="20" y="92" width="984" height="31"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State of UICursorLockMode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PC2-Eg-5zb">
-                                        <rect key="frame" x="0.0" y="0.0" width="927" height="31"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x1L-cO-rW8">
-                                        <rect key="frame" x="935" y="0.0" width="51" height="31"/>
-                                        <accessibility key="accessibilityConfiguration" label="Capture cursor (press esc to release)"/>
-                                    </switch>
+                                    </button>
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1MF-ds-g1Q" userLabel="AttributionLabel">
@@ -63,35 +86,26 @@ GitHub https://github.com/conath/iPadOSPointerContinuity</string>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To experience this Demo, connect a pointing device to this iPad and click on the toggle above." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5f-5H-vLw" userLabel="MouseWarningLabel">
-                                <rect key="frame" x="20" y="175" width="984" height="17"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u3R-ck-We3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="a5f-5H-vLw" firstAttribute="top" secondItem="lDM-JY-7gI" secondAttribute="bottom" constant="52" id="1nE-XZ-mCf"/>
-                            <constraint firstItem="lDM-JY-7gI" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="4Nz-hb-fRu"/>
-                            <constraint firstItem="oBJ-9d-j9l" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Aft-J8-wgN"/>
                             <constraint firstItem="uOy-L5-Yw3" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="E9s-ar-Oxx"/>
-                            <constraint firstItem="oBJ-9d-j9l" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="LC3-nd-hTO"/>
                             <constraint firstItem="a5f-5H-vLw" firstAttribute="leading" secondItem="u3R-ck-We3" secondAttribute="leading" constant="20" id="QxU-iL-em2"/>
                             <constraint firstItem="1MF-ds-g1Q" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="SVa-T1-Inh"/>
                             <constraint firstItem="1MF-ds-g1Q" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="Vvz-pN-WMg"/>
                             <constraint firstItem="uOy-L5-Yw3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="a1u-ey-b0P"/>
+                            <constraint firstItem="K3x-tG-boA" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="bbr-u8-Cl6"/>
+                            <constraint firstItem="K3x-tG-boA" firstAttribute="top" secondItem="a5f-5H-vLw" secondAttribute="bottom" constant="8" symbolic="YES" id="cQ3-1v-JO5"/>
                             <constraint firstItem="1MF-ds-g1Q" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ezr-Fr-D1d"/>
                             <constraint firstItem="uOy-L5-Yw3" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="mgr-uc-uuN"/>
                             <constraint firstItem="u3R-ck-We3" firstAttribute="trailing" secondItem="a5f-5H-vLw" secondAttribute="trailing" constant="20" id="ntV-42-QH1"/>
-                            <constraint firstItem="oBJ-9d-j9l" firstAttribute="top" secondItem="uOy-L5-Yw3" secondAttribute="bottom" constant="16" id="p5c-rs-Z7A"/>
-                            <constraint firstItem="lDM-JY-7gI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="pIY-bK-evf"/>
-                            <constraint firstItem="1MF-ds-g1Q" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PC2-Eg-5zb" secondAttribute="bottom" constant="8" id="tDP-zA-Vc2"/>
-                            <constraint firstItem="lDM-JY-7gI" firstAttribute="top" secondItem="oBJ-9d-j9l" secondAttribute="bottom" constant="8" id="w6f-Sv-bIb"/>
+                            <constraint firstItem="a5f-5H-vLw" firstAttribute="top" secondItem="uOy-L5-Yw3" secondAttribute="bottom" constant="8" symbolic="YES" id="rNv-zm-S46"/>
+                            <constraint firstItem="K3x-tG-boA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="swH-do-l8m"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonUnlockCursor" destination="e2Q-AX-XfG" id="L7L-0A-NFw"/>
                         <outlet property="mouseWarningLabel" destination="a5f-5H-vLw" id="E8p-JL-q6w"/>
                         <outlet property="switchPrefersLocked" destination="Vgh-Io-ZtG" id="kRh-qo-tE9"/>
                         <outlet property="switchStateLocked" destination="x1L-cO-rW8" id="Avp-9g-gZ1"/>
