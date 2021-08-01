@@ -78,21 +78,35 @@ class ViewController: UIViewController {
         pointerView.pointerPosition = nil
         let pointerInteraction = UIPointerInteraction(delegate: self)
         view.addInteraction(pointerInteraction)
+        setPointerLocked(false)
+        /// sign up for notifications about connected mouse
+        NotificationCenter.default.addObserver(self, selector: #selector(cgMouseDidBecomeCurrent), name: .GCMouseDidBecomeCurrent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cgMouseDidStopBeingCurrent), name: .GCMouseDidStopBeingCurrent, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setPointerLocked(false)
-        /// set up mouse events
         guard let scene = view.window!.windowScene else { return }
         switchStateLocked.setOn(scene.pointerLockState?.isLocked ?? false, animated: false)
-        if let mouseInput = GCMouse.current?.mouseInput {
-            mouseInput.mouseMovedHandler = gcMouseMoved
-            mouseInput.leftButton.pressedChangedHandler = gcMousePressed
-            mouseWarningLabel.isHidden = true
-        }
         /// workaround for iOS behavior where the external display will not use the system appearance by default
         (UIApplication.shared.delegate as! AppDelegate).externalVC?.overrideUserInterfaceStyle = traitCollection.userInterfaceStyle
+    }
+    
+    @objc private func cgMouseDidBecomeCurrent(_ notification: Notification) {
+        if let mouseInput = (notification.object as? GCMouse)?.mouseInput {
+            DispatchQueue.main.async { [self] in
+                mouseInput.mouseMovedHandler = gcMouseMoved
+                mouseInput.leftButton.pressedChangedHandler = gcMousePressed
+                mouseWarningLabel.isHidden = true
+            }
+        }
+    }
+    
+    @objc private func cgMouseDidStopBeingCurrent(_ notification: Notification) {
+        DispatchQueue.main.async { [self] in
+            setPointerLocked(false)
+            mouseWarningLabel.isHidden = false
+        }
     }
 
     private func gcMouseMoved(mouse: GCMouseInput, deltaX: Float, deltaY: Float) {
