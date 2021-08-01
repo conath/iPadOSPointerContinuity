@@ -16,4 +16,5 @@ On a real iOS device: use AirPlay Mirroring from Control Center or connect direc
 
 In the iOS Simulator: Click "I/O" in the menu bar, then choose any resolution under "External Displays".
 
-
+## A note on iPhone support
+While this app technically works fine on iPhone, as of iOS 14.7 connecting any kind of mouse to iPhone is not officially supported by Apple. Please see [this comment](https://github.com/conath/iPadOSPointerContinuity/issues/2#issuecomment-890590817) for more information.
